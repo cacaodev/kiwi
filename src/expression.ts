@@ -113,15 +113,28 @@ class Expression {
     }
 
     public toString(): string {
-        let result = this._terms.array.map(function(pair, idx) {
-            return (pair.second + "*" + pair.first.toString());
+        var result = this._terms.array.map(function(pair, idx) {
+            var res = "";
+            var coeff = pair.second;
+
+            if (coeff !== 0) {
+                if (coeff !== 1)
+                    res += coeff + "*";
+
+                res += pair.first.toString();
+            }
+
+            return res;
         }).join(" + ");
 
-        if (!this.isConstant() && this._constant !== 0) {
-            result += " + ";
+        let constant = this._constant;
+        if (constant !== 0) {
+            if (!this.isConstant()) {
+                result += ((constant < 0) ? " - " : " + ") + Math.abs(constant);
+            } else {
+                result += constant;
+            }
         }
-
-        result += this._constant;
 
         return result;
     }
