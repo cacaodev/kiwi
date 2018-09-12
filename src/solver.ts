@@ -253,9 +253,9 @@ class Solver {
             let pair = vars.itemAt( i );
             let rowPair = rows.find( pair.second );
             if ( rowPair !== undefined ) {
-                pair.first.setValue( rowPair.second.constant() );
+                pair.first.setValue( rowPair.second.constant(), true );
             } else {
-                pair.first.setValue( 0.0 );
+                pair.first.setValue( 0.0, true );
             }
         }
     }

@@ -83,8 +83,22 @@ class Variable {
      * Set the value of the variable.
      * @private
      */
-    public setValue( value: number ): void {
-        this._value = value;
+    public setValue( value: number, notif: boolean = false): void {
+        if (value !== this._value) {
+            this._value = value;
+
+            if (notif && this._onsolved) {
+                this._onsolved(this);
+            }
+        }
+    }
+
+    /**
+     * Set the value of the variable.
+     * @private
+     */
+    public setOnSolved( callback: (v: Variable) => void ): void {
+        this._onsolved = callback;
     }
 
     /**
@@ -147,6 +161,7 @@ class Variable {
     private _name: string;
     private _value: number = 0.0;
     private _context: any = null;
+    private _onsolved: (v: Variable) => void = null;
     private _id: number = VarId++;
 }
 
